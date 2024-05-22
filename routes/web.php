@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
 
 // Route::get('/nom/prenom/{n?}/{p?}',[WebsiteController::class,"accueil"])
@@ -12,7 +13,7 @@ use App\Http\Controllers\CategoriesController;
 Route::get('/',[WebsiteController::class,"accueil"])
 ->name("website.accueil");
 Route::get('/about',[WebsiteController::class,"about"])->name("website.about");
-Route::get('/products',[WebsiteController::class,"products"])->name("website.products");
+Route::get('/productslist',[WebsiteController::class,"products"])->name("website.products");
 Route::get('/contact',[WebsiteController::class,"contact"])->name("website.contact");
 
 
@@ -21,3 +22,8 @@ Route::get('/{date}/{num}', [OrderController::class, 'show'])->name('order.show'
 Route::post("/contact/show",[WebsiteController::class,"show"])->name("website.show");
 
 Route::resource("categories",CategoriesController::class);
+Route::resource("products",ProductsController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -32,6 +32,16 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $inputs=$request->all();
+        //traitement du fichier photo
+        if($request->hasFile("photo")){
+            $file=$request->file("photo");
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().uniqid().".".$extension;
+            $file->move(public_path("images/categories"),$filename);
+            $inputs["photo"]=$filename;
+        }else{
+            $inputs["photo"]="default.jpg";
+        }
         Category::create($inputs);
         return redirect()->route("categories.index")->with(['success'=>"Category added successfully"]);
     }
@@ -41,7 +51,7 @@ class CategoriesController extends Controller
      */
     public function show(Category $category)
     {
-        return view("backoffice.category.show", compact("category"));
+        return view("backoffice.categories.show", compact("category"));
     }
 
     /**
@@ -49,7 +59,7 @@ class CategoriesController extends Controller
      */
     public function edit(Category $category)
     {
-        return view("backoffice.category.edit", compact("category"));
+        return view("backoffice.categories.edit", compact("category"));
     }
 
     /**
@@ -58,6 +68,20 @@ class CategoriesController extends Controller
     public function update(Request $request, Category $category)
     {
         $inputs=$request->all();
+        //traitement de la photo
+        if($request->hasFile("photo")){
+            if(file_exists(public_path("images/categories/".$category->photo)) && $category->photo!=="default.jpg"){
+                unlink(public_path("images/categories/".$category->photo));
+                }
+            $file=$request->file("photo");
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().uniqid().".".$extension;
+            $file->move(public_path("images/categories"),$filename);
+            $inputs["photo"]=$filename;
+        }else{
+            $inputs["photo"]=$category->photo;
+        }
+
         $category->update($inputs);
         return redirect()->route("categories.index")->with(['success'=>"Category updated successfully"]);
     }
@@ -67,6 +91,10 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        //suppression du fichier photo
+        if(file_exists(public_path("images/categories/".$category->photo)) && $category->photo!=="default.jpg"){
+        unlink(public_path("images/categories/".$category->photo));
+        }
         $category->delete();
         return redirect()->route("categories.index")->with(['success'=>"Category deleted successfully"]);
     }

@@ -2,7 +2,8 @@
 @section('title',"Liste des categories")
 
 @section("content")
-<form action="{{ route('categories.store') }}" method="post">
+<h1>Ajouter categorie</h1>
+<form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
         <label for="name" class="form-label">Nom</label>
@@ -12,7 +13,7 @@
         <label for="photo" class="form-label">Photo</label>
         <input type="file" class="form-control" id="photo" name="photo">
     </div>
-    <div class="form-group">
+    <div class="form-group mt-3">
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </div>
 </form>
