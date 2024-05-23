@@ -43,14 +43,11 @@
                             <li><a href="{{ route('website.accueil') }}">Home</a></li>
                             <li><a href="{{ route('website.products') }}"> Products <i class="fa fa-angle-down"></i></a>
                                 <ul class="submenu">
-                                    <li><a href="about.html">about us</a></li>
-                                    <li><a href="cart-page.html">cart page</a></li>
-                                    <li><a href="checkout.html">checkout </a></li>
-                                    <li><a href="wishlist.html">wishlist </a></li>
-                                    <li><a href="my-account.html">my account</a></li>
-                                    <li><a href="login-register.html">login / register </a></li>
-                                    <li><a href="contact.html">contact us </a></li>
-                                    <li><a href="404.html">404 page </a></li>
+@foreach ($categories as $category)
+                                    <li><a href="{{ route('website.products',$category->id) }}">{{ $category->name }}</a></li>
+
+@endforeach
+
                                 </ul>
                             </li>
                             <li><a href="{{ route('website.about') }}"> About </a></li>
@@ -87,7 +84,7 @@
                     <div class="same-style cart-wrap">
                         <button class="icon-cart">
                             <i class="pe-7s-shopbag"></i>
-                            <span class="count-style">02</span>
+                            <span class="count-style">{{ count(Session::get('cart')) }}</span>
                         </button>
                         <div class="shopping-cart-content">
                             <ul>

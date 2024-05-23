@@ -31,6 +31,10 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "name"=>"required|min:3|max:50|unique:categories",
+            "photo"=>"required|image|mimes:jpg,jpeg,png,gif,webp|max:2048"
+        ]);
         $inputs=$request->all();
         //traitement du fichier photo
         if($request->hasFile("photo")){

@@ -10,6 +10,7 @@ use function Ramsey\Uuid\v1;
 
 class ProductsController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */

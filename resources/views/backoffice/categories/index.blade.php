@@ -2,7 +2,14 @@
 @section('title',"Liste des categories")
 
 @section("content")
-<h1>Liste des categories
+
+@if(Session::has("success"))
+<div class="alert alert-success">
+{{ Session::get('success') }}
+</div>
+@endif
+
+<h1>Liste des categories</h1>
     <a href="{{ route('categories.create') }}">
     <button class="btn btn-primary"><i class="bi bi-plus"></i> Ajouter categorie</button>
 </a>

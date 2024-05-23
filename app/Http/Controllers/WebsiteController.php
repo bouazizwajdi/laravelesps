@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class WebsiteController extends Controller
@@ -15,8 +16,13 @@ class WebsiteController extends Controller
         return view("website.about");
     }
 
-    public function products(){
-        return view("website.products");
+    public function products($category_id=null){
+        if($category_id>0){
+            $products=Product::where('category_id',$category_id)->get();
+        }else{
+            $products=Product::all();
+        }
+        return view("website.products",compact('products'));
     }
 
     public function contact(){

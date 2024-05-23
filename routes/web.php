@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\ProductsController;
@@ -13,16 +14,21 @@ use App\Http\Controllers\CategoriesController;
 Route::get('/',[WebsiteController::class,"accueil"])
 ->name("website.accueil");
 Route::get('/about',[WebsiteController::class,"about"])->name("website.about");
-Route::get('/productslist',[WebsiteController::class,"products"])->name("website.products");
+Route::get('/productslist/{category_id?}',[WebsiteController::class,"products"])->name("website.products");
 Route::get('/contact',[WebsiteController::class,"contact"])->name("website.contact");
 
+//cart
+Route::post('/cart/add',[CartController::class,"addToCart"])->name("cart.addtocart");
 
 Route::get('/{date}/{num}', [OrderController::class, 'show'])->name('order.show')->where(['date'=>"[0-9]{2}-[0-9]{2}-[0-9]{4}",'num'=>"[0-9]{8}"]);
 
 Route::post("/contact/show",[WebsiteController::class,"show"])->name("website.show");
 
+Route::middleware(["auth"])->group(function(){
 Route::resource("categories",CategoriesController::class);
 Route::resource("products",ProductsController::class);
+});
+
 
 Auth::routes();
 
