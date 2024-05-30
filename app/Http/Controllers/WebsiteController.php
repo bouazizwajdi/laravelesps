@@ -17,6 +17,7 @@ class WebsiteController extends Controller
     }
 
     public function products($category_id=null){
+        //session()->flush();
         if($category_id>0){
             $products=Product::where('category_id',$category_id)->get();
         }else{
@@ -38,4 +39,5 @@ $message=$request->message;
 return view("website.show",compact("name", "email","subject", "message"));
 
     }
+
 }

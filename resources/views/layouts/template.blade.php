@@ -9,6 +9,7 @@
     <title>@yield('title')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}">
 
@@ -84,43 +85,46 @@
                     <div class="same-style cart-wrap">
                         <button class="icon-cart">
                             <i class="pe-7s-shopbag"></i>
-                            <span class="count-style">{{ count(Session::get('cart')) }}</span>
+                            <span class="count-style">
+                                @if(Session::has("cart")) {{ count(Session::get('cart')) }} @else {{ 0 }} @endif</span>
                         </button>
                         <div class="shopping-cart-content">
                             <ul>
+                                @php
+                                    $total=0;
+                                @endphp
+                                @if(Session::has("cart"))
+
+@forelse(Session::get("cart") as $cartItem)
+@php
+                                    $total+=$cartItem->qty * $cartItem->price;
+                                @endphp
                                 <li class="single-shopping-cart">
                                     <div class="shopping-cart-img">
-                                        <a href="#"><img alt="" src="{{ asset('assets/img/cart/cart-1.png') }}"></a>
+                                        <a href="#"><img alt="" class="w-100" src="{{ asset('images/products/'.$cartItem->photo) }}"></a>
                                     </div>
                                     <div class="shopping-cart-title">
-                                        <h4><a href="#">T- Shart & Jeans </a></h4>
-                                        <h6>Qty: 02</h6>
-                                        <span>$260.00</span>
+                                        <h4><a href="#">{{ $cartItem->name }}</a></h4>
+                                        <h6>Qty: {{ $cartItem->qty }}</h6>
+                                        <span>TND {{ $cartItem->price }}</span>
                                     </div>
                                     <div class="shopping-cart-delete">
-                                        <a href="#"><i class="fa fa-times-circle"></i></a>
+                                        <a href="{{ route('cart.removecartitem',$cartItem->id) }}"><i class="fa fa-times-circle"></i></a>
                                     </div>
                                 </li>
-                                <li class="single-shopping-cart">
-                                    <div class="shopping-cart-img">
-                                        <a href="#"><img alt="" src="{{ asset('assets/img/cart/cart-2.png') }}"></a>
-                                    </div>
-                                    <div class="shopping-cart-title">
-                                        <h4><a href="#">T- Shart & Jeans </a></h4>
-                                        <h6>Qty: 02</h6>
-                                        <span>$260.00</span>
-                                    </div>
-                                    <div class="shopping-cart-delete">
-                                        <a href="#"><i class="fa fa-times-circle"></i></a>
-                                    </div>
-                                </li>
+@empty
+<li class="text-center d-block">Panier vide!</li>
+                                @endforelse
+                                @else
+<li class="text-center d-block">Panier vide!</li>
+@endif
                             </ul>
                             <div class="shopping-cart-total">
-                                <h4>Shipping : <span>$20.00</span></h4>
-                                <h4>Total : <span class="shop-total">$260.00</span></h4>
+                                <h4>Shipping : <span>TND 0.00</span></h4>
+                                <h4>Total : <span class="shop-total">TND {{ number_format($total,3,',',' ') }}</span></h4>
                             </div>
                             <div class="shopping-cart-btn btn-hover text-center">
-                                <a class="default-btn" href="cart-page.html">view cart</a>
+                                <a class="default-btn" href="{{ route('cart.cart') }}">view cart</a>
                                 <a class="default-btn" href="checkout.html">checkout</a>
                             </div>
                         </div>
