@@ -60,4 +60,8 @@ public function updateCartItem(Request $request){
 
 }
 
+public function checkout(){
+    return view("website.checkout");
+}
+
 }

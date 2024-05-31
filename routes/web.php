@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CategoriesController;
@@ -32,6 +33,11 @@ Route::get('/cart/removeitem/{id}',[CartController::class,"removeCartItem"])
 Route::get('/cart',[CartController::class,"cart"])->name("cart.cart");
 Route::get('/clearcart',[CartController::class,"clearCart"])->name("cart.clearcart");
 Route::put('/updatecartitem',[CartController::class,"updateCartItem"])->name("cart.updatecartitem");
+Route::get('/checkout',[CartController::class,"checkout"])->name("cart.checkout");
+
+//Order
+Route::get('/order/store',[OrdersController::class,"store"])->name("orders.store");
+Route::get('/order/index',[OrdersController::class,"index"])->name("orders.index");
 
 //admin
 Route::middleware(["auth"])->group(function(){
@@ -42,4 +48,4 @@ Route::resource("products",ProductsController::class);
 
 Auth::routes();
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

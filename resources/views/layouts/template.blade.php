@@ -125,7 +125,7 @@
                             </div>
                             <div class="shopping-cart-btn btn-hover text-center">
                                 <a class="default-btn" href="{{ route('cart.cart') }}">view cart</a>
-                                <a class="default-btn" href="checkout.html">checkout</a>
+                                <a class="default-btn" href="{{ route('cart.checkout') }}">checkout</a>
                             </div>
                         </div>
                     </div>
